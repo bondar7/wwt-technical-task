@@ -37,6 +37,14 @@ const FilterModal = ({ initialFilters, isOpen, onClose }: FilterModalProps) => {
 		// ...logic for applying new filter
 	}, [])
 
+	const onApply = useCallback(() => {
+		setIsOpenConfirmModal(true)
+	}, [])
+
+	const onReset = useCallback(() => {
+		console.log('reset')
+	}, [])
+
 	const { t } = useTranslation('filter')
 
 	return (
@@ -80,7 +88,7 @@ const FilterModal = ({ initialFilters, isOpen, onClose }: FilterModalProps) => {
 						justifyContent="center"
 					>
 						<Button
-							onClick={() => setIsOpenConfirmModal(true)}
+							onClick={onApply}
 							paddingRight="70px"
 							paddingLeft="70px"
 							size="lg"
@@ -90,6 +98,7 @@ const FilterModal = ({ initialFilters, isOpen, onClose }: FilterModalProps) => {
 						</Button>
 					</Box>
 					<Button
+						onClick={onReset}
 						position="absolute"
 						variant="ghost"
 						textDecoration="underline"

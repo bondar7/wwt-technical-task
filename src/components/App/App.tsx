@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Box, Button } from '@chakra-ui/react'
+import { Box, Button, useDisclosure } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 
 import { queryOptions } from '@api/fetchFilters'
@@ -11,15 +11,11 @@ import { FilterModal } from '@components/Filter'
 
 export const App = () => {
 	const [initialFilters, setInitialFilters] = useState<FilterItem[]>([])
-	const [isOpenFilterModal, setIsOpenFilterModal] = useState<boolean>(false)
-
-	const handleOnOpen = useCallback(() => {
-		setIsOpenFilterModal(true)
-	}, [])
-
-	const handleOnClose = useCallback(() => {
-		setIsOpenFilterModal(false)
-	}, [])
+	const {
+		isOpen: isFiltersOpen,
+		onOpen: onFiltersOpen,
+		onClose: onFiltersClose
+	} = useDisclosure()
 
 	const { t } = useTranslation('filter')
 
@@ -50,14 +46,14 @@ export const App = () => {
 				boxShadow="md"
 				_hover={{ bg: 'blue.600', transform: 'scale(1.05)' }}
 				_active={{ bg: 'blue.700', transform: 'scale(0.95)' }}
-				onClick={handleOnOpen}
+				onClick={onFiltersOpen}
 			>
 				{t('filter')}
 			</Button>
 			<FilterModal
 				initialFilters={initialFilters}
-				isOpen={isOpenFilterModal}
-				onClose={handleOnClose}
+				isOpen={isFiltersOpen}
+				onClose={onFiltersClose}
 			/>
 		</Box>
 	)
