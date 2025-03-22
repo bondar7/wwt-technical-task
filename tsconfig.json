@@ -1,0 +1,56 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"baseUrl": ".",
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
+		"types": ["vite-plugin-svgr/client", "vitest/globals"],
+		"paths": {
+			/* Imports like '@components/App' */
+			"@api/*": ["./src/api/*"],
+			"@assets/*": ["./src/assets/*"],
+			"@components/*": ["./src/components/*"],
+			"@constants/*": ["./src/constants/*"],
+			"@helpers*": ["./src/helpers/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@providers/*": ["./src/providers/*"],
+			"@store/*": ["./src/store/*"],
+			"@temp/*": ["./src/temp/*"],
+			"@utils/*": ["./src/utils/*"],
+
+			/* Imports like '@constants' */
+			"@api": ["./src/api"],
+			"@assets": ["./src/assets"],
+			"@components": ["./src/components"],
+			"@constants": ["./src/constants"],
+			"@helpers": ["./src/helpers"],
+			"@pages": ["./src/pages"],
+			"@providers": ["./src/providers"],
+			"@store": ["./src/store"],
+			"@temp": ["./src/temp"],
+			"@utils": ["./src/utils"],
+			"@/*": ["./src/*"]
+		},
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"include": ["custom.d.ts", "env.d.ts", "src", "setupTest.ts"],
+	"exclude": ["node_modules", "tmp", ".vscode", ".husky"],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
+}
