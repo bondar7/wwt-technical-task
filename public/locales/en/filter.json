@@ -1,1 +1,10 @@
-{}
+{
+  "filters": "Filters",
+  "failedToLoadFilters": "Failed to load filters",
+  "filter": "Filter",
+  "apply": "Apply",
+  "clear": "Clear all parameters",
+  "useOldFilter": "Use old filter",
+  "useNewFilter": "Use new filter",
+  "confirmModalTitle": "Do you want to apply new filter?"
+}
