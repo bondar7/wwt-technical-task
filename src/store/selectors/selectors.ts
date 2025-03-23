@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-syntax
 import { FilterState } from '@/store'
 
 export const selectFilters = (state: FilterState) => state.filters

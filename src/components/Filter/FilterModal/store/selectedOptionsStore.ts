@@ -13,4 +13,3 @@ export const useSelectedOptionsStore = create<SelectedOptionsState>(set => ({
 	setSelectedOptions: options => set({ selectedOptions: options }),
 	resetSelectedOptions: () => set({ selectedOptions: [] })
 }))
-
