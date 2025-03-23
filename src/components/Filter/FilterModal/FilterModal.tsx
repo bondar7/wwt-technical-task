@@ -1,4 +1,3 @@
-import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -14,43 +13,29 @@ import {
 	ModalOverlay
 } from '@chakra-ui/react'
 
+import { useFilterLogic } from '@/hooks/useFilterLogic.ts'
 import { FilterModalProps } from '@components/Filter'
 import ConfirmModal from '@components/Filter/ConfirmModal/ConfirmModal.tsx'
 import OptionsList from '@components/Filter/FilterModal/OptionsList.tsx'
 
 const FilterModal = ({ initialFilters, isOpen, onClose }: FilterModalProps) => {
-	const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
-
-	const handleOnClose = useCallback(() => {
-		setIsOpenConfirmModal(false)
-	}, [])
-
-	const handleOnRefuse = useCallback(() => {
-		handleOnClose()
-		onClose()
-		// ...logic for refusing
-	}, [])
-
-	const handleOnConfirm = useCallback(() => {
-		handleOnClose()
-		onClose()
-		// ...logic for applying new filter
-	}, [])
-
-	const onApply = useCallback(() => {
-		setIsOpenConfirmModal(true)
-	}, [])
-
-	const onReset = useCallback(() => {
-		console.log('reset')
-	}, [])
-
 	const { t } = useTranslation('filter')
+	const {
+		isOpenConfirmModal,
+		handleOnClose,
+		handleOnRefuse,
+		handleOnConfirm,
+		onApply,
+		onReset,
+		onCloseFilterModal,
+		selectedOptions,
+		setSelectedOptions
+	} = useFilterLogic(onClose)
 
 	return (
 		<Modal
 			isOpen={isOpen}
-			onClose={onClose}
+			onClose={onCloseFilterModal}
 		>
 			<ModalOverlay />
 			<ModalContent>
@@ -60,7 +45,11 @@ const FilterModal = ({ initialFilters, isOpen, onClose }: FilterModalProps) => {
 					{Array.isArray(initialFilters) &&
 						initialFilters.map(item => (
 							<Box key={item.id}>
-								<OptionsList filterItem={item} />
+								<OptionsList
+									selectedOptions={selectedOptions}
+									setSelectedOptions={setSelectedOptions}
+									filterItem={item}
+								/>
 								<Divider mt={4} />
 							</Box>
 						))}

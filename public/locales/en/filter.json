@@ -6,5 +6,6 @@
   "clear": "Clear all parameters",
   "useOldFilter": "Use old filter",
   "useNewFilter": "Use new filter",
-  "confirmModalTitle": "Do you want to apply new filter?"
+  "confirmModalTitle": "Do you want to apply new filter?",
+  "noSelected": "Click to select filters"
 }

@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Box, Button, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Flex, Text, useDisclosure } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 
 import { queryOptions } from '@api/fetchFilters'
 import { FilterItem } from '@api/types/Filter'
 
-import { FilterModal } from '@components/Filter'
+import { FilterModal, useSelectedOptionsStore } from '@components/Filter'
+import { selectSetSelectedOptions } from '@components/Filter/FilterModal/store'
+import { selectFilters, useFiltersStore } from '@store'
 
 export const App = () => {
 	const [initialFilters, setInitialFilters] = useState<FilterItem[]>([])
+	const selectedFilters = useFiltersStore(selectFilters)
+	const setSelectedOptions = useSelectedOptionsStore(selectSetSelectedOptions)
 	const {
 		isOpen: isFiltersOpen,
 		onOpen: onFiltersOpen,
@@ -22,39 +26,62 @@ export const App = () => {
 	const { data } = useQuery<FilterItem[], Error>(queryOptions)
 
 	useEffect(() => {
-		if (Array.isArray(data)) {
+		if (
+			Array.isArray(data) &&
+			JSON.stringify(data) !== JSON.stringify(initialFilters)
+		) {
 			setInitialFilters(data)
 		}
-	}, [data])
+	}, [data, initialFilters])
+
+	const handleOnFiltersOpen = () => {
+		onFiltersOpen()
+		setSelectedOptions(selectedFilters)
+	}
+
+	const selectedFiltersJSON = useMemo(
+		() => JSON.stringify(selectedFilters, null, 2),
+		[selectedFilters]
+	)
 
 	return (
-		<Box
-			maxW="90rem"
-			mx="auto"
-			minH="100dvh"
-			display="flex"
-			justifyContent="center"
+		<Flex
+			p={8}
+			flexDirection="column"
+			alignItems="center"
 		>
 			<Button
 				mt="3"
-				colorScheme="blue"
-				variant="solid"
+				paddingRight="70px"
+				paddingLeft="70px"
 				size="lg"
+				variant="solid"
+				colorScheme="brand"
 				px="6"
 				py="4"
 				borderRadius="md"
 				boxShadow="md"
-				_hover={{ bg: 'blue.600', transform: 'scale(1.05)' }}
-				_active={{ bg: 'blue.700', transform: 'scale(0.95)' }}
-				onClick={onFiltersOpen}
+				_hover={{ transform: 'scale(1.05)' }}
+				_active={{ transform: 'scale(0.95)' }}
+				fontSize="large"
+				onClick={handleOnFiltersOpen}
 			>
 				{t('filter')}
 			</Button>
+			<Box mt={4}>
+				{selectedFilters.length > 0 ? (
+					<Box textStyle="headline-5">
+						<pre>{selectedFiltersJSON}</pre>
+					</Box>
+				) : (
+					<Text textStyle="headline-5">{t('noSelected')}</Text>
+				)}
+			</Box>
 			<FilterModal
 				initialFilters={initialFilters}
 				isOpen={isFiltersOpen}
 				onClose={onFiltersClose}
 			/>
-		</Box>
+		</Flex>
 	)
 }

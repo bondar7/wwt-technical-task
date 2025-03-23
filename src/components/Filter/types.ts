@@ -1,4 +1,5 @@
 import { FilterItem } from '@api/types/Filter'
+import { SearchRequestFilter } from '@api/types/SearchRequest/SearchRequestFilter.ts'
 
 export interface FilterModalProps {
 	initialFilters: FilterItem[]
@@ -15,4 +16,6 @@ export interface ConfirmModalProps {
 
 export interface OptionsListProps {
 	filterItem: FilterItem
+	selectedOptions: SearchRequestFilter
+	setSelectedOptions: (options: SearchRequestFilter) => void
 }
