@@ -1,27 +1,28 @@
-Filter Modal Workflow
+# Filter Modal Workflow
 
-Overview
-
+## Overview
 This document explains the approach used for managing filters and selected options in the filter modal window. The modal allows users to select filters, preview their choices, and either confirm or discard changes.
 
-Data Structure
+## Data Structure
+### 1. `initialFilters`
+- Fetched using React Query from a JSON file.
+- Represents **all available filters** displayed in the modal.
 
-1. initialFilters
+### 2. `filtersStore`
+- Stores **confirmed filters** that the user has applied.
+- The source of truth for the saved selections.
 
-Fetched using React Query from a JSON file.
+### 3. `selectedOptions`
+- Tracks user interactions within the modal.
+- Temporarily holds selected filter options.
+- Updates in real-time when checkboxes are checked/unchecked.
 
-Represents all available filters displayed in the modal.
+## Summary
 
-2. filtersStore
+| **Action**              | **Effect**                                           |
+|-------------------------|-----------------------------------------------------|
+| **User opens modal**    | `selectedOptions` is set to `filtersStore` (saved filters). |
+| **User selects options** | `selectedOptions` updates with user choices.       |
+| **User cancels**        | `selectedOptions` resets to `filtersStore` (previous state). |
+| **User confirms**       | `filtersStore` is updated with `selectedOptions`.   |
 
-Stores confirmed filters that the user has applied.
-
-The source of truth for the saved selections.
-
-3. selectedOptions
-
-Tracks user interactions within the modal.
-
-Temporarily holds selected filter options.
-
-Updates in real-time when checkboxes are checked/unchecked.
